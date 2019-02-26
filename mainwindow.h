@@ -30,9 +30,12 @@ private slots:
 
     void on_durationChanged(qint64 position);
 
+    void on_pushButton_3_clicked();
+
 private:
     Ui::MainWindow *ui;
     QMediaPlayer* player;
+
 };
 
 #endif // MAINWINDOW_H

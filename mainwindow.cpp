@@ -1,6 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-
+#include <iostream>
+#include <string>
+#include <QMediaMetaData>
+#include <QString>
+#include <QFileDialog>
+#include <QMessageBox>
+using namespace  std;
+QString fileName;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -9,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
     player=new QMediaPlayer(this);
     connect(player, &QMediaPlayer::positionChanged, this, &MainWindow::on_positionChanged);
     connect(player, &QMediaPlayer::durationChanged, this, &MainWindow::on_durationChanged);
+
 }
 
 MainWindow::~MainWindow()
@@ -29,8 +37,9 @@ player->setVolume(position);
 void MainWindow::on_pushButton_clicked()
 {
 //Load the file
-    player->setMedia(QUrl::fromLocalFile(QFileInfo("C:/Users/Valued Customer/Documents/MyPlayer/moonlight.mp3").absoluteFilePath()));
+    player->setMedia(QUrl::fromLocalFile(QFileInfo(fileName).absoluteFilePath()));
     player->play();
+   // console.log(player->metaData);
     qDebug()<<player->errorString();
 }
 
@@ -47,4 +56,10 @@ ui->SliderProgress->setValue(position);
 void MainWindow::on_durationChanged(qint64 position)
 {
 ui->SliderProgress->setMaximum(position);
+}
+
+void MainWindow::on_pushButton_3_clicked()
+{
+fileName=QFileDialog::getOpenFileName(this,"Open a file","C://Users/Valued Customer/Documents/MyPlayer/QtMediaPlayer");
+QMessageBox::information(this,"..",fileName);
 }
